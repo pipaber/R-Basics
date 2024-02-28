@@ -10,7 +10,7 @@ format:
 theme: minty
 appendix-style: default
 toc: true
-toc-depth: 6
+toc-depth: 5
 df-print: tibble
 editor: visual
 ---
