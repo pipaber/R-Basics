@@ -1,0 +1,351 @@
+---
+title: "Introduction to R"
+subtitle: "Lecture 1"
+author: "Piero Palacios"
+format: 
+  html: 
+    self-contained: true
+    self-contained-math: true
+    smooth-scroll: true
+theme: minty
+appendix-style: default
+toc: true
+toc-depth: 6
+df-print: tibble
+editor: visual
+---
+
+# Objectives
+
+-   Learn computational modes of thinking.
+-   Master the art of computational problem solving.
+-   Make computers do what you want them to do.
+
+# Topics
+
+-   Represent knowledge with data structures.
+-   Iteration.
+-   Abstraction of procedures and data types.
+
+# What does a computer do?
+
+## Fundamentaly
+
+-   Performs calculations really quickly.
+-   Remember results.
+
+## What kind of calculations?
+
+-   Simply arithmetic calculations and logic operations (primitive calculations).
+
+# Types of knowledge
+
+-   Declarative knowledge: statement of fact.
+-   Imperative knowledge: recipe or "how to" (sequence of steps).
+
+## What is a recipe:
+
+Only 3 pieces:
+
+-   Sequence of simple steps.
+-   Flow of control process that specifies when each step is executed.
+-   A means of determining when to stop.
+
+![](https://th.bing.com/th/id/R.03a6d4941bbf375ce6f53a4e771b0189?rik=jpy9YOlAfbG3JQ&pid=ImgRaw&r=0){width="252"}
+
+# Computers are machines
+
+-   Fixed program machines: calculator, Alan Turing's Bombe.
+-   Stored program machines: machines stores and executes instructions.
+
+![](https://th.bing.com/th/id/OIP.OYBI7R05Ienk_y1n2q6trgHaFj?rs=1&pid=ImgDetMain){width="381"}
+
+## Stored Program Computer
+
+Sequence of instructions stored inside computer build from predefined set of primitive instructions.
+
+-   Arithmetic and logic.
+-   Simple tests.
+-   Moving data.
+
+Special program (interpreter: python, R, javascript, matlab, etc) executes each instruction in order
+
+-   Use tests to change flow of control through sequence.
+-   Stop when done.
+
+![](https://th.bing.com/th/id/OIP.kmkQcLbHBgOa9qkMMkdGJwHaFM?rs=1&pid=ImgDetMain){width="393"}
+
+### Basic Primitives
+
+-   Alan Turing showed you can compute anything using 6 primitives (left,right,scan,read,write,do nothing).
+-   Modern programming languages have more convenient set of primitives.
+-   Can abstract methods to create new primitives.
+-   **Anything computable in one language is computable in any other programming language** - Touring complete
+
+# Creating Recipes
+
+-   A programming language provides a set of primitive operations
+-   Expressions are complex but legal combinations of primitives in a programming language.
+-   Expressions and computations have values and meaning in a programming language.
+
+## Aspects of Languages
+
+-   Primitive constructs:
+    -   Spanish: words.
+    -   programming language: numbers, strings, simple operations.
+-   Syntax:
+    -   Spanish: "perro gato arbol" - not syntactically valid "el perro come carne" - syntactically valid
+    -   programming language: "hi"5 - not syntactically valid 10.7 \* 5 - syntactically valid
+-   Static semantics: Syntactically valid strings have **meaning**.
+    -   Spanish: "Yo estamos comiendo" - syntactically valid but static semantic error.
+    -   programming language: 10.7\*5 - syntactically valid 3 + "hola" - static semantic error
+-   Semantics: Is the meaning associated with a syntactically correct string of symbols with no static semantic errors.
+    -   Spanish: "Volar aviones es dificil" "Usar estadistica es sencillo"
+    -   programming language: have only one meaning but may not be what programmer intended (bugs) e.g. program stops running, program runs forever, program gives an answer but different than expected.
+
+# Types
+
+## Objects
+
+-   Programs manipulate **data objects**.
+-   Objects have a type that defines the kinds of things programs can do to them.
+
+### Scalar Objects
+
+```{r}
+# int
+5
+
+# float
+3.59
+
+# bool
+
+TRUE
+
+# Not a number
+
+NaN
+
+# use the function typeof to see the type
+
+typeof(TRUE)
+```
+
+```{r}
+# we can specify the type
+
+as.integer(5)
+
+as.logical(1)
+
+as.double(5)
+```
+
+### Expressions
+
+-   Combine objects and operator to form expressions.
+-   An expression have a value, which has a type.
+-   Syntax for a simple expression: <object> <operator> <object>
+
+```{r}
+1+1
+2-1
+8.24*3
+9/3
+3**2
+sqrt(25)
+```
+
+# Variables
+
+## Binding Variables and Values
+
+```{r}
+
+pi = 3.14159
+
+pi_approx <- 22/7
+
+pi
+pi_approx
+
+```
+
+Now we can use those variables on other computations
+
+```{r}
+pi**2
+
+2*pi
+```
+
+-   That value is stored in computer memory.
+-   An assignment binds name to value.
+
+## Abstarcting Expressions
+
+Why give names to values of expressions? - To reuse names instead of values. - Easy to change code later.
+
+```{r}
+radius = 3.6
+
+# area of the circle
+area = pi*(radius**2)
+area
+
+radius = radius + 1
+area = pi*(radius**2)
+
+# rebinding
+radius
+area
+
+```
+
+# Operators and Bindings
+
+## Comparison operators on int and float
+
+-   i and j are any variables i\>j i\>=j i\<j i\<=j i==j -\> equality, True if i equals j i!=j -\> inequality, True if i not equal to j
+
+```{r}
+4 > 2
+4.5 >= 5.5
+3.0 == 3
+4.5 != 10
+```
+
+## Logic Operators on Bools
+
+a and b are any variable names.
+
+! a -\> True if a is False False if a is True
+
+a & b -\> True if both are True a \| b -\> True if either or both are True
+
+```{r}
+
+# we can use the booleans to compare things
+
+!TRUE
+
+TRUE & TRUE
+TRUE & FALSE
+
+TRUE | FALSE
+FALSE | FALSE
+```
+
+### Branching Programs
+
+The simplest branching statement is a **conditional**
+
+-   A test (expression that evaluates to TRUE or FALSE).
+-   A block of code to execute if the test is TRUE.
+-   An optional block of code to execute if the test is FALSE.
+
+![](https://www.exforsys.com/images/cpp/cbimg02.png){width="398"}
+
+```{r}
+
+# A simple example
+
+x = 8
+
+if(x%%2 == 0){
+  
+  print("Even")
+  
+} else {
+  
+  print("Odd")
+  
+}
+
+print("Done with conditional")
+
+
+```
+
+```{r}
+
+# Nested conditionals
+x = 12
+
+if(x%%2 == 0){
+  
+  if(x%%3 == 0){
+    
+    print("Divisible by 2 and 3")
+    
+  } else {
+    
+    print("Divisible by 2 and not by 3")
+    
+  }
+  
+} else if(x%%3){
+  
+  
+  print("Divisible by 3 and not by 2")
+  
+}
+
+
+```
+
+```{r}
+# Compound booleans
+
+x = 6
+y = 7
+z = 8
+
+if( (x<y) && (x<z) ){
+  
+  print("x is least")
+  
+} else if(y<z){
+  
+  print("y is least")
+  
+} else{
+  
+  print("z is least")
+  
+}
+
+```
+
+-   Branching programs allow us to make choices and do different things.
+-   The code is executed once.
+
+# Exercises
+
+``` r
+
+3 > 4
+4.0 > 3.999
+4 > 4
+4 > + 4
+2 + 2 == 4
+TRUE | F
+FALSE | T
+!FALSE
+3.0 - 1.0 != 5.0 - 3.0
+3 > 4 or (2 < 3 and 9 > 10)
+4 > 5 or 3 < 4 and 9 > 8
+not(4 > 3 and 100 > 6)
+
+a = 3
+a == 5.0
+a
+
+b=10
+c = b>9
+c
+
+round(2.6)
+as.integer(2.9)
+```
