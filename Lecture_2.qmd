@@ -1,0 +1,578 @@
+---
+title: "Core Elements of Programs"
+subtitle: "Lecture 2"
+author: "Piero Palacios"
+date: last-modified
+format: 
+  html: 
+    self-contained: true
+    self-contained-math: true
+    smooth-scroll: true
+theme: minty
+appendix-style: default
+toc: true
+toc-depth: 5
+df-print: tibble
+editor: visual
+---
+
+## Variables (Revisited)
+
+-   name
+
+    -   descriptive
+
+    -   meaningful
+
+    -   helps you re-read the code
+
+    -   cannot be keywords
+
+-   value
+
+    -   information stored
+
+    -   can be updated
+
+"=" is called assignment.
+
+```{r}
+
+x = 2
+x = x*x
+y = x + 1
+
+```
+
+Is this ok? No.
+
+```{r}
+
+x = 1
+y = 2
+y = x
+x = y
+
+x
+y
+
+```
+
+The right way to do it
+
+```{r}
+
+x = 1
+y = 2
+temp = y
+y = x
+x = temp
+
+x
+y
+
+
+```
+
+## Strings
+
+-   String us simple a sequence of characters. Letters, special characters, spaces, digits.
+-   Enclose in quotation marks or single quotes.
+
+```{r}
+
+hi = "Hello there"
+greetings = 'Hello'
+
+hi
+greetings
+
+```
+
+### Concatenate strings
+
+```{r}
+name = "Eric"
+cat(hi, name, sep=" ")
+cat(hi,name, sep=",")
+
+```
+
+```{r}
+greet = paste0(hi,name)
+greet
+greeting = paste0(hi," ",name)
+greeting
+```
+
+```{r}
+name2 = strsplit(name,"")
+name2
+
+name2 |> 
+  class()
+
+```
+
+Exercise
+
+``` r
+
+# Get "abc" from "a" and "bc"
+# Print your full name
+```
+
+## Print
+
+The `print` function is important to see the output of variables in programming.
+
+```{r}
+print(name)
+print(greeting)
+```
+
+## `cat`
+
+The `cat` function let you concatenate strings and print with only one command.
+
+```{r}
+cat("How","are","you?")
+```
+
+## `readline`
+
+The `readline` function let you interact withthe console and store a value.
+
+```{r}
+x = readline("Give a number:") 
+
+y = readline("Give a number:") |> 
+  as.numeric()
+```
+
+Exercises
+
+``` r
+
+if(6>7){
+  print("Yep")
+}
+
+if(6>7){
+  print("Yep")
+} else{
+  print("Nope")
+}
+
+temp = 50
+
+if(temp >85){
+  print("Hot")
+} else if(temp >100){
+  print("Really hot!")
+} else if(temp >60){
+  print("Comfortable")
+} else{
+  print("Cold")
+}
+```
+
+## Control Flow
+
+### Branching Programs (Revisited)
+
+The simplest branching statement is a **conditional**
+
+-   A test (expression that evaluates to TRUE or FALSE).
+-   A block of code to execute if the test is TRUE.
+-   An optional block of code to execute if the test is FALSE.
+
+![](https://www.exforsys.com/images/cpp/cbimg02.png){width="398"}
+
+### Comparison operators on int and float (Revisited)
+
+-   i and j are any variables:
+    -   i\>j
+    -   i\>=j
+    -   i\<j
+    -   i\<=j
+    -   i==j -\|\> equality, True if i equals j
+    -   i!=j -\|\> inequality, True if i not equal to j
+
+But, how can we run the code multiple times?
+
+### Using Control in Loops
+
+-   Simple branching programs just make choices, but the code still runs linear.
+-   Sometimes want to reuse parts of the code indeterminate number of times.
+
+For this task we need a loop and there are two types of loops: a while loop and a for loop.
+
+#### `while` Loops
+
+``` r
+
+while(<contition>){
+
+  <expression>
+  <expression>
+
+}
+```
+
+-   <condition> evaluates to a Boolean.
+-   if <condition> is TRUE, do all the steps inside the while code block.
+-   check <condition> again.
+-   repeat until <condition> is FALSE.
+
+```{r}
+
+n = 0
+
+while(n != 5){
+  
+  string = glue::glue("We are in {n}")
+  print(string)
+  n = n+1
+  
+}
+
+```
+
+#### `for` Loops
+
+```{r}
+
+for(i in 0:5){
+  
+  print(i)
+  
+}
+
+```
+
+``` r
+
+for(<variable> in <range of values>){
+
+  <expression>
+  <expression>
+
+}
+```
+
+-   Each time through the loop, <variable> takes a value.
+-   First time, <variable> starts at the smallest value.
+-   Next time, <variable> gets the prev value + 1
+-   etc.
+
+```{r}
+
+my_sum = 0
+
+for(i in seq(0,10,by=2)){
+  
+  my_sum = my_sum + i
+  
+  print(my_sum)
+  
+}
+```
+
+#### `break` Statement
+
+-   immediately exits whatever loop it is in.
+-   skips remaining expressions in code block.
+-   exists only innermost loop.
+
+``` r
+
+while(<contition>){
+  
+  while(<contition>){
+  
+  <expression_a>
+  break
+  <expression_b>
+  }
+
+  <expression_c>
+}
+```
+
+```{r}
+
+my_sum = 0
+
+for(i in seq(0,10)){
+  
+  my_sum = my_sum + 1
+  
+  if(my_sum == 5){
+    break
+  }
+  
+}
+
+print(my_sum)
+
+```
+
+|                                           |                                                                                        |
+|------------------------|-----------------------------------------------|
+| for loops                                 | while loops                                                                            |
+| know number of iterations                 | unbounded number of iterations                                                         |
+| can end early via break                   | can end early via break                                                                |
+| uses a counter                            | can use a counter but must initialize before the loop and increment it inside the loop |
+| can rewrite a for loop using a while loop | may not be able to rewrite a while loop using a for loop                               |
+
+: for vs while loops
+
+Exercises
+
+``` r
+
+# 1.
+numberOfLoops = 0
+numberOfApples = 2
+while(numberOfLoops < 10){
+    numberOfApples = numberOfApples * 2
+    numberOfApples = numberOfLoops + numberOfLoops
+    numberOfLoops = numberOfLoops + 1
+}
+
+print(glue::glue("Number of apples: {numberOfApples}"))
+
+# 2.
+
+num = 10
+while(num > 3){
+    num = num - 1
+    print(num) 
+}
+
+# 3.
+
+num = 10
+while(TRUE){
+    if(num < 7){
+        print('Breaking out of loop')
+        break
+    }
+    print(num)
+    num = num - 1
+}
+
+print('Outside of loop')
+
+# 4.
+
+## Convert the following code into code that uses a for loop.
+
+#prints Hello! 
+# prints 10 
+# prints 8 
+# prints 6 
+# prints 4 
+# prints 2 
+```
+
+## Iteration
+
+-   Concept of iteration let's us extend simple branching algorithms to be able to write programs of arbitrary complexity.
+    -   Start with a test-
+    -   If evaluates to TRUE, then execute loop body once, and go back to reevaluate the test.
+    -   Repeat until test evaluates to FALSE, after which code following iteration statement is executed.
+
+![](https://knowthecode.io/wp-content/uploads/2016/10/for-loop-flowchart.jpg)
+
+```{r}
+
+library(glue)
+
+# compute naive power of 2 of a number
+
+x = 3
+
+answer = 0
+
+iters_left = x
+
+while(iters_left != 0){
+  
+  answer = answer + x
+  iters_left = iters_left - 1
+  
+}
+
+print(glue("{x}*{x} = {answer}"))
+
+```
+
+| x   | answer | iters_left |
+|-----|--------|------------|
+| 3   | 0      | 3          |
+|     | 3      | 2          |
+|     | 6      | 1          |
+|     | 9      | 0          |
+
+
+Some properties of iteration loops:
+-   need to set an iteration variable outside the loop.
+-   need to test variable to determine when done.
+-   need to change variable within the loop, in addition to other work.
+
+### Iterative code
+
+-   Branching structures (conditionals) let us jump to different pieces of code based on a test.
+-   Looping structures (e.g. while) let us repeat pieces of code until a condition is satisfied.
+
+```{r}
+
+string = "Hola"
+
+string_sequence = strsplit(string,"") |> 
+  unlist()
+
+for(letter in string_sequence){
+  
+  print(letter)
+  
+}
+
+```
+
+### Classes of Algorithms
+
+-   Iterative algorithms allow us to do more complex things than simple arithmetic.
+-   We can repeat a sequence of steps multiple times based on some decision.
+
+#### Guess and Check
+
+Finding cube root of integer:
+
+```{r}
+
+# x = readline("Enter an integer: ") |> 
+#   as.integer()
+
+x = 27
+
+ans = 0
+
+while(ans**3 < x){
+  
+  ans = ans + 1
+  
+}
+
+if(ans**3 != x){
+  
+  print(glue("{x} is not a perfect cube"))
+  
+} else {
+  
+  print(glue("Cube root of {x} is {ans}"))
+  
+}
+
+```
+
+#### Extending Scope
+
+-   The previous example only works for integers.
+-   Easy to fix by keeping track of sign, looking for solution to positive case.
+
+```{r}
+
+
+x = -8
+
+ans = 0
+
+while(ans**3 < abs(x)){
+  
+  ans = ans + 1
+  
+}
+
+if(ans**3 != abs(x)){
+  
+  print(glue("{x} is not a perfect cube"))
+  
+} else {
+  
+  if(x <0){
+    
+    ans = -ans
+    
+  }
+  
+  print(glue("Cube root of {x} is {ans}"))
+  
+}
+
+```
+
+
+Useful to think about decrementing function
+
+-   Maps set of program variables into an integer.
+-   When loop is entered, value is non-negative.
+-   When value is <= 0, loop terminates and
+-   Value is decreased every time through loop.
+
+A cleaner form
+
+```{r}
+
+cube = 27
+
+for(guess in seq(0,cube)){
+  
+  if((guess^3) == cube){
+    
+    glue("Cube root of {cube} is {guess}") |> 
+      print()
+    
+  }
+  
+}
+
+```
+
+```{r}
+
+cube = -8
+
+for(guess in seq(0,abs(cube))){
+  
+  if(guess**3 >= abs(cube)){
+    
+    break
+    
+  }
+  
+}
+
+if(guess**3 != abs(cube)){
+  
+  glue("{cube} is not a perfect cube") |> 
+    print()
+  
+} else{
+  
+  if(cube < 0){
+    
+    guess = -guess
+    
+    glue("Cube root of {cube} is {guess}") |> 
+      print()
+  }
+  
+}
+
+```
+
+
+
