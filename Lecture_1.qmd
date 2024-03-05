@@ -271,26 +271,22 @@ print("Done with conditional")
 ```{r}
 
 # Nested conditionals
-x = 12
+x = 6
 
-if(x%%2 == 0){
+if(x%%2==0){
   
-  if(x%%3 == 0){
+  if(x%%3==0){
     
     print("Divisible by 2 and 3")
     
   } else {
-    
-    print("Divisible by 2 and not by 3")
-    
+    print("Divisible by 2 but not by 3")
   }
   
-} else if(x%%3){
-  
-  
-  print("Divisible by 3 and not by 2")
-  
+} else if(x%%3==0){
+  print("Divisible by 3 but not by 2")
 }
+
 
 
 ```
